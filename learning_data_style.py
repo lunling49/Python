@@ -79,12 +79,20 @@ print(c)
 # 更新键值对，若不存在，相当于加入
 c.update({'a': 'p'})
 print(c)
+# 新插入元素
+c['r'] = 6
+print(c)
 # 获得键值对组成的列表
 print(c.items())
 # 读取某一个值，通过 key 的值，若不存在key，则返回 None
 print(c['a'])
 # 读取某一个值，通过 get 的方法，若不存在key，则返回 None
 print(c.get('b'))
+# 判断 key 是否存在
+# 方法一
+print('a' in c)     # 存在返回 True，不存在返回 False
+# 方法二
+print(c.get('b'))   # 存在返回其定义的值，不存在key，则返回 None
 # 合并两个字典
 dict1 = {'x': 'a', 'y': 'b'}
 dict2 = {'p': 'u', 'o': 't'}
