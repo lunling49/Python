@@ -73,7 +73,7 @@ print(c.values())
 # 复制字典
 p = c.copy()
 print(p)
-# 删除键key的值
+# 删除键key的值，key 必须填
 c.pop('a')
 print(c)
 # 更新键值对，若不存在，相当于加入
@@ -85,6 +85,15 @@ print(c.items())
 print(c['a'])
 # 读取某一个值，通过 get 的方法，若不存在key，则返回 None
 print(c.get('b'))
+# 合并两个字典
+dict1 = {'x': 'a', 'y': 'b'}
+dict2 = {'p': 'u', 'o': 't'}
+# 方法一
+# dict1.update(dict2)
+# print(dict1)
+# 方法二
+dict3 = dict(dict1, **dict2)
+print(dict3)
 
 # 集合set{} -- 无序，可更改，可视为没有 value 的 dict，只存 key。一般用做去重或者集合求交、求并等
 # set 函数
