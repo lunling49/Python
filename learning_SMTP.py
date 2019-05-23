@@ -65,6 +65,7 @@ def send_text_email(sender, receivers, content, sender_name, email_title, smtp_s
     # 邮件标题
     msg['Subject'] = Header('%s' % email_title, 'utf-8').encode()
 
+
     # 添加附件--方法1，就是加上一个MIMEBase，从本地读取文件
     # with open('文件路径', 'rb') as f:
     #     # 设置附件的MIME和文件名，第一个参数：附件类型（text,image），第二个参数：附件后缀名
@@ -78,11 +79,11 @@ def send_text_email(sender, receivers, content, sender_name, email_title, smtp_s
     #     msg.attach(mime)
 
     # 添加附件--方法2
-    att1 = MIMEText(open(r'C:\Users\Administrator\Desktop\dog.jpg', 'rb').read(), 'base64', 'utf-8')
-    att1['Content-Type'] = 'application/octet-stream'
-    # filename任意写，写什么名字，邮箱中就显示什么名字
-    att1['Content-disposition'] = 'attachment;filename="test.jpg"'
-    msg.attach(att1)
+    # att1 = MIMEText(open(r'C:\Users\Administrator\Desktop\dog.jpg', 'rb').read(), 'base64', 'utf-8')
+    # att1['Content-Type'] = 'application/octet-stream'
+    # # filename任意写，写什么名字，邮箱中就显示什么名字
+    # att1['Content-disposition'] = 'attachment;filename="test.jpg"'
+    # msg.attach(att1)
     # 多附件，可以复制黏贴以上方法
 
     # 将图片显示在正文
@@ -91,7 +92,7 @@ def send_text_email(sender, receivers, content, sender_name, email_title, smtp_s
         msgImage = MIMEImage(f.read())
         # 定义图片id
         msgImage.add_header('Content-ID', '<0>')
-        # mime.add_header('X-Attachment_Id', '0')
+        # msgImage.add_header('X-Attachment_Id', '0')
         msg.attach(msgImage)
 
     try:
@@ -117,7 +118,12 @@ if __name__ == '__main__':
     receivers = ['873119216@qq.com', '3383054774@qq.com']
     receivers_name = 'test'
     smtp_server = 'smtp.qq.com'
-    content = '<html><body><h1>hello</h1>' + '<p><img src="cid:0"></p>' + '</body></html>'
+    # content = '<html><body><h1>hello</h1>' + '<p><img src="cid:0"></p>' + '</body></html>'
+    content = '''
+            <h2 style="color:red">hello, send by python</h2>
+            <a href="https://www.baidu.com">this is a html</a>
+            <p><img src="cid:0"></p>
+    '''
     sender_name = '大小姐'
     email_title = '来自SMTP发邮件的测试'
     send_text_email(sender, receivers, content, sender_name, email_title, smtp_server, sender_authorization_code,
