@@ -113,7 +113,7 @@ def send_text_email(sender, receivers, content, sender_name, email_title, smtp_s
 
 if __name__ == '__main__':
     sender = '3383054774@qq.com'
-    sender_authorization_code = 'dvcqydecddkwciji'
+    sender_authorization_code = 'dvcqyd*****wciji'
     # 由于可以一次发给多个人，所以传入一个list
     receivers = ['873119216@qq.com', '3383054774@qq.com']
     receivers_name = 'test'
