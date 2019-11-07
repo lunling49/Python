@@ -8,7 +8,8 @@ from example.commons import Faker
 def funnel_base():
     f = (Funnel()
          .add("商品", [list(z) for z in zip(Faker.choose(), Faker.values())])
-         .set_global_opts(title_opts=opts.TitleOpts(title="Funnel-基本示例")))
+         .set_global_opts(title_opts=opts.TitleOpts(title="Funnel-基本示例"))
+         .set_series_opts(label_opts=opts.LabelOpts(formatter='{b}:{c}')))
     return f
 
 # funnel_base().render(r'Funnel-基本示例.html')
@@ -20,11 +21,11 @@ def funnel_label_inside():
          .add(
             "商品",
             [list(z) for z in zip(Faker.choose(), Faker.values())],
-            label_opts=opts.LabelOpts(position="inside"))
+            label_opts=opts.LabelOpts(position="inside", formatter='{b}:{c}'))
          .set_global_opts(title_opts=opts.TitleOpts(title="Funnel-Label（inside)")))
     return f
 
-# funnel_label_inside().render(r'Funnel-Label（inside).html')
+funnel_label_inside().render(r'Funnel-Label（inside).html')
 
 
 # 3、Funnel-Sort（ascending）
