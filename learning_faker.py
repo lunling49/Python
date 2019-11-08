@@ -11,7 +11,7 @@ from faker import Faker as f
 不同faker之间的差别
 fake = f('zh_CN')
 a = Faker.values()      --生成的数据是一个list
-b = fake.pyint()        --生成的数据是单个或者是自己设定的
+b = fake.pyint()        --生成的数据是单个或者是自己设定的数量
 print(a)
 print(b)
 """
