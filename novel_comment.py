@@ -16,10 +16,12 @@ for page in range(1, total_pages+1):
     respone = requests.get(url1)
     comments_list = respone.json()
     print(page)
-    if page == total_pages:
-        page_nums = last_page_comments
-    else:
-        page_nums = 100
+    # if page == total_pages:
+    #     page_nums = last_page_comments
+    # else:
+    #     page_nums = 100
+    # 使用三元表达式简化代码
+    page_nums = last_page_comments if page == total_pages else 100
     if comments_list['info']['total'] != 0:
         with open(r'e:/快穿之炮灰女配逆袭记的评论.txt', 'r', encoding='utf-8') as open_f:
             list_comments = open_f.read()
