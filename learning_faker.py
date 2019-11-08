@@ -4,6 +4,18 @@
 from faker import Faker
 from faker import Factory       # 导入工厂类
 
+"""
+from example.commons import Faker
+from faker import Faker as f
+
+不同faker之间的差别
+fake = f('zh_CN')
+a = Faker.values()      --生成的数据是一个list
+b = fake.pyint()        --生成的数据是单个或者是自己设定的
+print(a)
+print(b)
+"""
+
 
 # Faker里不填，默认输出美国英文；填本地化提供商，则显示对应的语言
 fake = Faker()      # 创建和初始化生成器
