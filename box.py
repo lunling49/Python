@@ -2,6 +2,9 @@ import csv, yaml, pymysql, smtplib, time, logging, inspect, sys, contextlib, uni
 import datetime
 from xml.sax import saxutils
 
+import xlrd, xlwt
+from xlrd import xldate_as_tuple
+
 import win32gui, win32con
 from enum import Enum, unique
 from email.mime.multipart import MIMEMultipart
@@ -133,7 +136,6 @@ class YamlHelper(object):
 
 # 数据库的处理
 class DbHelper(object):
-
     """MYSQL 数据库帮助类"""
     connect = None
     def __init__(self, host, port, user, password, database, charset='utf-8'):
@@ -178,6 +180,67 @@ class DbHelper(object):
     def close(self):
         """关闭数据库连接"""
         self.connect.close()
+
+
+# 读写excel数据
+class ExcelData(object):
+    """读取、写入excel数据"""
+    def read_excel_data(self, excel_path, sheetname):
+        """
+        读取excel的数据
+        :param data_path: 工作表的路径
+        :param sheetname: 工作表里的sheet的名字
+        :return:
+        """
+        self.excel_path = excel_path      # 定义一个属性接收文件路径
+        self.sheetname = sheetname      # 定义一个属性接收工作表名称
+        if 'xlsx' in self.excel_path:
+            self.data = xlrd.open_workbook(self.excel_path)
+        else:
+            self.data = xlrd.open_workbook(self.excel_path, formatting_info=True)
+        self.table = self.data.sheet_by_name(self.sheetname)
+        self.keys = self.table.row_values(0)     # 获取第一行所有内容
+        self.rownum = self.table.nrows
+        self.colnum = self.table.ncols
+
+        datas = []
+        for i in range(1, self.rownum):
+            sheet_data = {}
+            for j in range(self.colnum):
+                cell_value = self.judge_value_styl(i, j)
+
+                # 判断合并单元格
+                if cell_value is None or cell_value == '':
+                    cell_value = self.get_merged_cells_value(i, j)
+
+                sheet_data[self.keys[j]] = cell_value
+            datas.append(sheet_data)
+        # 从excel获得的数据，以列表中存字典的形式返回
+        return datas
+
+    def judge_value_styl(self, row, col):
+        """判断数据的类型，并转换成想要的类型"""
+        data_type = self.table.cell_type(row, col)  # 单元格数据类型
+        cell_value = self.table.cell_value(row, col)
+
+        # 判断数据类型
+        if data_type == 2 and cell_value % 1 == 0:  # 如果是整型
+            cell_value = int(cell_value)
+        elif data_type == 3:  # date类型显示的是小数点数字，因此要转换成需要的类型
+            date = datetime.datetime(*xldate_as_tuple(cell_value, 0))
+            cell_value = date.strftime('%Y/%m/%d %H:%M:%S')
+        elif data_type == 4:
+            cell_value = True if cell_value == 1 else False
+        return cell_value
+
+    def get_merged_cells_value(self, r_index, c_index):
+        """先判断给定的单元格，是否属于合并单元格；如果是合并单元格，就返回合并单元格的内容"""
+        for (rlow, rhigh, clow, chigh) in self.table.merged_cells:
+            if r_index >= rlow and r_index < rhigh:
+                if c_index >= clow and c_index < chigh:
+                    cell_value = self.judge_value_styl(rlow, clow)
+                    return cell_value
+        return None
 
 
 # 发送邮件
