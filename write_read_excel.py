@@ -98,7 +98,7 @@ merged_cells返回的这四个参数的含义是：(row,row_range,col,col_range)
 其中[row,row_range)包括row,不包括row_range,col也是一样，
 即(1, 3, 4, 5)的含义是：第1到2行（不包括3）合并，(7, 8, 2, 5)的含义是：第2到4列合并。
 """
-print(sheet1.merged_cells)
+# print(sheet1.merged_cells)
 # print(sheet1.cell_value(5, 1))
 # print(sheet1.cell_value(7, 1))
 # print(sheet1.cell_value(2, 3))
@@ -114,7 +114,76 @@ print(sheet1.merged_cells)
 
 
 # xlwt 写数据到excel
+workbook = xlwt.Workbook(encoding='utf-8')      # 创建一个workbook并设置编码
+worksheet = workbook.add_sheet('test')          # 创建一个worksheet
+style = xlwt.XFStyle()          # 初始化样式
+font = xlwt.Font()      # 为样式创建字体
+font.name = 'Times New Roman'
+font.underline = True       # 下划线
+font.bold = True        # 黑体
+font.italic = True      # 斜体
+style.font = font       # 设定样式
 
+# # 写入excel，参数对应行、列、值
+# worksheet.write(1, 0, 'try to create a excel')      # 写入一个单元格数据，不带样式写入
+#
+rows = ['item', 'swim', 'run', 'ski', 'walk']       # 写入多个单元格数据，不带样式写入
+cols = ['time', 'score', 'number']
+for i in range(len(rows)):
+    worksheet.write(i, 0, rows[i])
+for j in range(1, len(cols)+1):
+    worksheet.write(0, j, cols[j-1])
+#
+# worksheet.write_merge(3, 5, 1, 3, 'Second Merge', style)    # 带样式写入合并单元格，与读取合并单元格不同的是，单元格区间是左右闭合的，不是左开右闭
+# workbook.save('create_excel.xls')       # 保存文件
 
+# 设置单元格列宽度、行高度
+# worksheet.col(0).width = 3333           # 列宽设置方法一
+# worksheet.col(1).width = 256 * 20       # 列宽设置方法二：256为衡量单位，20表示20个字符宽度
+# 行高度，行宽是在单元格的样式中设置的，可以通过自动换行、通过输入文字的多少来确定行高
+# row_height_style = xlwt.easyxf('font:height 720')
+# worksheet.row(0).set_style(row_height_style)
+# 行高设置方法二，行高的基本单位为20
+# worksheet.row(0).height_mismatch = True
+# worksheet.row(0).height = 20*40
 
+# 写入日期到单元格
+style.num_format_str = 'YYYY/M/D'       # 日期样式设置
+worksheet.write(1, 1, datetime.now(), style)    # style必须写，不然是时间是一串数字
+
+# 添加公式--Formula()
+# worksheet.write(2, 2, 3)
+# worksheet.write(3, 2, 4)
+# worksheet.write(4, 2, xlwt.Formula('C3*C4'))
+# worksheet.write(4, 3, xlwt.Formula('SUM(C3,C4)'))
+
+# 添加超链接
+# worksheet.write(4, 4, xlwt.Formula('HYPERLINK("https://www.baidu.com";"百度")'))
+
+# 设置单元格内容的对齐方式
+# alignment = xlwt.Alignment()
+# alignment.horz = xlwt.Alignment.HORZ_CENTER
+# alignment.vert = xlwt.Alignment.VERT_CENTER
+# style.alignment = alignment
+# worksheet.write(4, 4, 'I don\'t know', style)
+
+# 添加边框
+# borders = xlwt.Borders()
+# borders.left = xlwt.Borders.DASHED      # DASHED-虚线，NO_LINE-没有，THIN-实线
+# borders.right = xlwt.Borders.THIN
+# borders.top = xlwt.Borders.NO_LINE
+# borders.bottom = xlwt.Borders.MEDIUM
+# borders.left_colour = 0*40
+# style.borders = borders
+# worksheet.write(4, 5, 'python', style)
+
+# 设置单元格背景色
+pattern = xlwt.Pattern()
+pattern.pattern = xlwt.Pattern.SOLID_PATTERN
+# pattern.pattern_fore_colour = 5       # 设置背景色方法一
+pattern.pattern_fore_colour = xlwt.Style.colour_map['dark_blue']        # 设置背景色方法二
+style.pattern = pattern
+worksheet.write(4, 6, 'success', style)
+
+workbook.save('create_excel.xls')
 
