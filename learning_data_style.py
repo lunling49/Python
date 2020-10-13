@@ -1,6 +1,8 @@
 # 数据类型：列表（list）、元组（tuple）、集合（set）、字典（dict）
 
 # 列表list[] -- 有序，可更改（删除、添加元素）
+import operator
+
 a = ['data', 'you', 'have', 4, 'pop', 6]
 # 获取长度
 print(len(a))
@@ -48,6 +50,9 @@ print(e)
 # 复制list
 e1 = e      # e1 为 e 的别名，对 e1 操作即对 e 操作
 e2 = e[:]   # e2 为 e 的克隆，即另一个拷贝
+# list里的多字典排序
+# t.sort(key=operator.itemgetter('key值'),reverse=True) #默认为升序， reverse=True为降序
+
 
 # 元组tuple() -- 有序，不可更改，在赋值时决定所有元素
 # tuple 没有append()、insert()、extend()方法，其他获取元素的方法与 list 一样
