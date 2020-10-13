@@ -1,0 +1,117 @@
+Ò»¡¢xpath½éÉÜ
+
+XPath ÊÇÒ»ÃÅÔÚ XML ÎÄµµÖÐ²éÕÒÐÅÏ¢µÄÓïÑÔ¡£XPath ÓÃÓÚÔÚ XML ÎÄµµÖÐÍ¨¹ýÔªËØºÍÊôÐÔ½øÐÐµ¼º½¡£
+1¡¢
+
+XPath Ê¹ÓÃÂ·¾¶±í´ïÊ½ÔÚ XML ÎÄµµÖÐ½øÐÐµ¼º½
+2¡¢
+XPath °üº¬Ò»¸ö±ê×¼º¯Êý¿â
+3¡¢
+XPath ÊÇ XSLT ÖÐµÄÖ÷ÒªÔªËØ
+4¡¢
+XPath ÊÇÒ»¸ö W3C ±ê×¼
+
+XPath ÖÐÓÐÆßÖÖÀàÐÍµÄ½Úµã£º
+ÔªËØ¡¢ÊôÐÔ¡¢ÎÄ±¾¡¢ÃüÃû¿Õ¼ä¡¢´¦ÀíÖ¸Áî¡¢×¢ÊÍÒÔ¼°ÎÄµµ£¨¸ù£©½Úµã¡£XML ÎÄµµÊÇ±»×÷Îª½ÚµãÊ÷À´¶Ô´ýµÄ¡£
+
+¶þ¡¢xpathÓï·¨
+1¡¢±í´ïÊ½
+nodename -- Ñ¡È¡´Ë½ÚµãµÄËùÓÐ×Ó½Úµã
+/ -- ´Ó¸ù½ÚµãÑ¡È¡
+// -- ´ÓÆ¥ÅäÑ¡ÔñµÄµ±Ç°½ÚµãÑ¡ÔñÎÄµµÖÐµÄ½Úµã£¬¶ø²»¿¼ÂÇËüÃÇµÄÎ»ÖÃ
+. -- Ñ¡È¡µ±Ç°½Úµã
+.. --Ñ¡È¡µ±Ç°½ÚµãµÄ¸¸½Úµã
+@ -- Ñ¡È¡ÊôÐÔ
+
+
+2¡¢Â·¾¶±í´ïÊ½£¨¾ÙÀýËµÃ÷£©--Î½Óï
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<bookstore>
+<book>
+  <title lang="eng">Harry Potter</title>
+  <price>29.99</price>
+</book>
+<book>
+  <title lang="eng">Learning XML</title>
+  <price>39.95</price>
+</book>
+</bookstore>
+
+/bookstore/book[1] -- Ñ¡È¡ÊôÓÚbookstore×ÓÔªËØµÄµÚÒ»¸öbookÔªËØ
+/bookstore/book[last()] -- Ñ¡È¡ÊôÓÚbookstore×ÓÔªËØµÄ×îºóÒ»¸öbookÔªËØ
+/bookstore/book[last()-1] -- Ñ¡È¡ÊôÓÚbookstore×ÓÔªËØµÄµ¹ÊýµÚ¶þ¸öbookÔªËØ
+/bookstore/book[position()<3] -- Ñ¡È¡ÊôÓÚbookstore×ÓÔªËØµÄÇ°2¸öbookÔªËØ
+//title[@lang] -- Ñ¡È¡ËùÓÐÓµÓÐÃûÎªlangÊôÐÔµÄtitleÔªËØ
+//title[@lang='eng'] -- Ñ¡È¡langÊôÐÔµÄÖµÎªengµÄËùÓÐtitleÔªËØ
+/bookstore/book[price>35.00] -- Ñ¡È¡bookstoreÖÐbookÔªËØµÄpriceÖµ´óÓÚ35.00µÄËùÓÐbookÔªËØ
+/bookstore/book[price>35.00]/title -- Ñ¡È¡bookstoreÖÐbookÔªËØpriceÖµ´óÓÚ35.00ÏÂµÄËùÓÐtitleÔªËØ
+
+
+3¡¢Í¨Åä·û
+* -- Æ¥ÅäÈÎºÎÔªËØ½Úµã
+@* -- Æ¥ÅäÈÎºÎÊôÐÔ½Úµã
+node() -- Æ¥ÅäÈÎºÎÀàÐÍµÄ½Úµã
+| -- ²¢ÁÐ·û£¬¿ÉÑ¡È¡¶à¸ö½Úµã
+Àý£º
+/bookstore/* -- Ñ¡È¡bookstoreÔªËØµÄËùÓÐÔªËØ
+//* -- Ñ¡È¡ÎÄµµÖÐµÄËùÓÐÔªËØ
+//title[@*] -- Ñ¡È¡ËùÓÐ´øÓÐÊôÐÔµÄtitleÔªËØ
+//title | //price -- Ñ¡È¡ÎÄµµÖÐµÄËùÓÐ´øtitleºÍpriceµÄÔªËØ
+//book/title | //book/price -- Ñ¡È¡bookÔªËØµÄËùÓÐtitleºÍpriceÔªËØ
+//bookstore/book/title | //price -- Ñ¡È¡bookstoreÔªËØbookÔªËØµÄËùÓÐtitleÔªËØºÍÎÄµµÖÐËùÓÐµÄpriceÔªËØ
+
+Èý¡¢Öá£º¿É¶¨ÒåÏà¶ÔÓëÓÚµ±Ç°½ÚµãµÄ½Úµã¼¯
+ancestor -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÏÈ±²£¨¸¸¡¢×æ¸¸µÈ£©
+ancestor-or-self -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÏÈ±²£¨¸¸¡¢×æ¸¸µÈ£©ÒÔ¼°µ±Ç°½Úµã±¾Éí
+attribute -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÊôÐÔ
+child -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ×ÓÔªËØ
+descendant -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐºó´úÔªËØ£¨×Ó¡¢ËïµÈ£©
+descendant-or-self -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐºó´úÔªËØ£¨×Ó¡¢ËïµÈ£©ÒÔ¼°µ±Ç°½Úµã±¾Éí
+following -- Ñ¡È¡ÎÄµµÖÐµ±Ç°½ÚµãµÄ½áÊø±êÇ©Ö®ºóµÄËùÓÐ½Úµã
+namespace -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÃüÃû¿Õ¼ä½Úµã
+parent -- Ñ¡È¡µ±Ç°½ÚµãµÄ¸¸½Úµã
+preceding -- Ñ¡È¡ÎÄµµÖÐµ±Ç°½ÚµãµÄ¿ªÊ¼±êÇ©Ö®Ç°µÄËùÓÐ½Úµã
+preceding-sibling -- Ñ¡È¡µ±Ç°½ÚµãÖ®Ç°µÄËùÓÐÍ¬¼¶½Úµã
+self -- Ñ¡È¡µ±Ç°½Úµã
+
+Óï·¨£º
+ÖáÃû³Æ::½Úµã²âÊÔ[Î½Óï]
+Àý£º
+child::book -- Ñ¡È¡ËùÓÐÊôÓÚµ±Ç°½ÚµãµÄ×ÓÔªËØµÄ book ½Úµã
+attribute::lang -- Ñ¡È¡µ±Ç°½ÚµãµÄ lang ÊôÐÔ
+child::* -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ×ÓÔªËØ
+attribute::* -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÊôÐÔ
+child::text() -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐÎÄ±¾×Ó½Úµã
+child::node() -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ×Ó½Úµã
+
+descendant::book -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ book ºó´ú
+
+ancestor::book -- Ñ¡Ôñµ±Ç°½ÚµãµÄËùÓÐ book ÏÈ±²
+
+ancestor-or-self::book -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ book ÏÈ±²ÒÔ¼°µ±Ç°½Úµã£¨Èç¹û´Ë½ÚµãÊÇ book ½Úµã£©
+
+child::*/child::price -- Ñ¡È¡µ±Ç°½ÚµãµÄËùÓÐ price Ëï½Úµã
+
+ËÄ¡¢º¯Êý
+1¡¢starts-with£º»ñÈ¡ÒÔxxx¿ªÍ·µÄÔªËØ
+Àý£ºxpath('//div[starts-with(@class,"test")]')
+
+2¡¢contains£º»ñÈ¡°üº¬xxxµÄÔªËØ
+Àý£ºxpath('//div[contains(@id,"test")]')
+
+3¡¢and£ºÓëµÄ¹ØÏµ
+Àý£ºxpath('//div[contains(@id,"test") and contains(@id,"title")]')
+
+4¡¢text()£ºÎÄ±¾ÐÅÏ¢
+Àý£ºxpath('//div[contains(text(),"test")]')
+    xpath('//div[text()="test"]')
+
+
+
+
+
+
+
+
+
+
